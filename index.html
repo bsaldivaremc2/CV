@@ -304,9 +304,11 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
         <div class="sg-hdr"><div class="sicon ib">👁</div><h4>Computer Vision &amp; Explainability</h4></div>
         <div class="stags">
           <span class="stag">CNNs</span><span class="stag">Image Classification</span><span class="stag">Segmentation</span>
-          <span class="stag">Object Location</span><span class="stag">OpenCV</span><span class="stag">SHAP</span>
-          <span class="stag">Grad-CAM</span><span class="stag">Saliency Maps</span><span class="stag">FaceNet</span>
-          <span class="stag">Transfer Learning</span>
+          <span class="stag">Object Detection</span><span class="stag">Object Tracking</span><span class="stag">OpenCV</span>
+          <span class="stag">SHAP</span><span class="stag">Grad-CAM</span><span class="stag">Saliency Maps</span>
+          <span class="stag">InsightFace</span><span class="stag">YOLO11</span><span class="stag">RT-DETR</span>
+          <span class="stag">GroundingDINO</span><span class="stag">ByteTrack</span><span class="stag">DINOv2</span>
+          <span class="stag">FaceNet</span><span class="stag">Transfer Learning</span>
         </div>
       </div>
 
@@ -335,10 +337,22 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
         <div class="sg-hdr"><div class="sicon ie">⚙️</div><h4>Cloud, DevOps &amp; Tools</h4></div>
         <div class="stags">
           <span class="stag">Python</span><span class="stag">FastAPI</span><span class="stag">Docker</span>
+          <span class="stag">Azure App Service</span><span class="stag">Azure ACR Tasks</span><span class="stag">Azure Key Vault</span>
           <span class="stag">GCP</span><span class="stag">Vertex AI</span><span class="stag">Cloud Run</span>
           <span class="stag">HPC / Singularity</span><span class="stag">Linux / Bash</span><span class="stag">SQL</span>
           <span class="stag">GitHub Copilot</span><span class="stag">Power BI</span>
           <span class="stag">Pandas</span><span class="stag">NumPy</span><span class="stag">Matplotlib</span><span class="stag">Seaborn</span>
+        </div>
+      </div>
+
+      <div class="sg">
+        <div class="sg-hdr"><div class="sicon ic">🎙</div><h4>Audio &amp; Media AI</h4></div>
+        <div class="stags">
+          <span class="stag">faster-whisper</span><span class="stag">Speech-to-Text</span><span class="stag">Audio Captioning</span>
+          <span class="stag">CoNeTTE</span><span class="stag">PANNs CNN14</span><span class="stag">wav2vec2-SER</span>
+          <span class="stag">AASIST</span><span class="stag">XLS-R</span><span class="stag">Fake Audio Detection</span>
+          <span class="stag">Deepfake Detection</span><span class="stag">Sound Event Detection</span>
+          <span class="stag">Emotion Recognition</span><span class="stag">ffmpeg</span>
         </div>
       </div>
 
@@ -361,8 +375,13 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
         <div class="tl-card">
           <div class="tl-hdr"><h3 class="tl-title">Data Scientist</h3><span class="tl-date">04/2026 – Present</span></div>
           <div class="tl-org">🤖 Cyberette</div>
-          <div class="tl-desc">AI/ML applied to image analysis and explainability. Building and deploying models for computer vision tasks, generating explainability heatmaps (Grad-CAM, SHAP) and integrating LVM-based agentic workflows for automated report generation.
-            <div class="tl-tags"><span class="ttag">Image Analysis</span><span class="ttag">Explainability</span><span class="ttag">Grad-CAM</span><span class="ttag">SHAP</span><span class="ttag">LVM</span><span class="ttag">LangGraph</span><span class="ttag">Computer Vision</span></div>
+          <div class="tl-desc">Built a modular multi-modal AI explainability platform across image, audio, and video domains — 30+ microservices deployed on Azure App Service. Architecture: pip-installable Python packages → FastAPI REST APIs → Azure App Service (ACR Tasks + Key Vault secrets + managed identities). 600+ unit and integration tests across all packages.
+            <ul>
+              <li><strong>Image:</strong> Cyberette Explainability Pipeline v3 — 10 structured features (environment risk, coercion, suspicious behavior, manipulation summary from DINOv2 heatmaps) via Gemini vision; full image analysis pipeline (deepfake detection, face detection/attributes with InsightFace, person detection with RT-DETR-L/X + GroundingDINO, object detection with YOLO11n/s).</li>
+              <li><strong>Audio:</strong> Speech-to-text (faster-whisper, 7 model sizes); audio scene captioning (CoNeTTE + PANNs CNN14 + wav2vec2-SER); fake audio detection (AASIST two-stage, XLS-R 300M, 128 languages).</li>
+              <li><strong>Video:</strong> Temporal object tracking and narrative generation (YOLO11 + ByteTrack + Gemini).</li>
+            </ul>
+            <div class="tl-tags"><span class="ttag">Azure App Service</span><span class="ttag">FastAPI</span><span class="ttag">Docker</span><span class="ttag">InsightFace</span><span class="ttag">YOLO11</span><span class="ttag">RT-DETR</span><span class="ttag">GroundingDINO</span><span class="ttag">DINOv2</span><span class="ttag">Gemini API</span><span class="ttag">faster-whisper</span><span class="ttag">AASIST</span><span class="ttag">ByteTrack</span><span class="ttag">ACR Tasks</span><span class="ttag">Key Vault</span></div>
           </div>
         </div>
       </div>
@@ -549,9 +568,9 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
           <div class="pc-icon" style="margin-bottom:0;">🧠</div>
           <span style="font-size:.65rem;font-weight:700;background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.35);color:var(--cyan);padding:2px 8px;border-radius:99px;white-space:nowrap;">⭐ New</span>
         </div>
-        <h4>LVM Agentic Workflow for AI Explainability Reports</h4>
-        <p>Agentic pipeline ingesting ML predictions + explainability heatmaps (Grad-CAM, SHAP). A Large Vision Model interprets heatmaps spatially; LangGraph orchestrates prompt templates to generate structured report sections explaining predictions through visual evidence.</p>
-        <div class="ptags"><span class="ptag">LVM</span><span class="ptag">LangGraph</span><span class="ptag">OpenAI API</span><span class="ptag">Claude API</span><span class="ptag">Grad-CAM</span><span class="ptag">SHAP</span><span class="ptag">FastAPI</span><span class="ptag">Docker</span></div>
+        <h4>Multi-Modal AI Explainability Platform (Cyberette)</h4>
+        <p>30+ microservices on Azure App Service spanning image, audio, and video analysis. Image: Cyberette Explainability Pipeline v3 — 10 structured features (environment risk, coercion, suspicious behavior, manipulation summary from DINOv2 heatmaps) via Gemini vision; face detection (InsightFace), person detection (RT-DETR + GroundingDINO), object detection (YOLO11). Audio: speech-to-text (faster-whisper), scene captioning, fake audio detection (AASIST, XLS-R 128 languages). Video: temporal tracking + Gemini narrative (YOLO11 + ByteTrack). 600+ tests.</p>
+        <div class="ptags"><span class="ptag">Gemini Vision</span><span class="ptag">DINOv2</span><span class="ptag">InsightFace</span><span class="ptag">YOLO11</span><span class="ptag">RT-DETR</span><span class="ptag">GroundingDINO</span><span class="ptag">faster-whisper</span><span class="ptag">AASIST</span><span class="ptag">ByteTrack</span><span class="ptag">Azure App Service</span><span class="ptag">FastAPI</span><span class="ptag">Docker</span></div>
       </div>
 
       <div class="pc">
