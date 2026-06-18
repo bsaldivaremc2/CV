@@ -176,6 +176,27 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   .tl-hdr{flex-direction:column}
   .sum-card{padding:24px}
 }
+
+@media print{
+  @page{size:A4;margin:14mm 12mm}
+  *,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  /* Ensure fade-in elements that haven't scrolled into view still appear */
+  .fi{opacity:1!important;transform:none!important;transition:none!important}
+  nav,#pdf-btn{display:none!important}
+  #hero{padding:30px 0 22px;overflow:visible}
+  #hero::before,#hero::after{display:none}
+  .section{padding:26px 0}
+  /* Remove the vertical timeline line — it causes visual artefacts across page breaks */
+  .tl::before{display:none}
+  .tl-dot{box-shadow:none}
+  /* Prevent any card / list item from splitting across a page */
+  .tl-item,.sg,.pc,.aw,.pub,.ci,.cc,.sum-card{break-inside:avoid;page-break-inside:avoid}
+  /* Keep section headers attached to the first item below them */
+  .sh{break-after:avoid;page-break-after:avoid}
+  /* Strip box-shadows for cleaner print output */
+  .tl-card,.sg,.pc,.pub,.ci,.aw,.sum-card{box-shadow:none}
+  footer{padding:20px 0}
+}
 </style>
 </head>
 <body>
@@ -196,6 +217,7 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
       <li><a href="#international">Global</a></li>
       <li><a href="https://bsaldivaremc2.github.io/CV/" target="_blank" style="color:var(--cyan);border:1px solid rgba(6,182,212,.3);">CV ↗</a></li>
     </ul>
+    <button id="pdf-btn" onclick="window.print()" style="background:var(--cyan);color:var(--navy);border:none;padding:6px 14px;border-radius:6px;font-size:.78rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit;flex-shrink:0">⬇ PDF</button>
   </div>
 </nav>
 
