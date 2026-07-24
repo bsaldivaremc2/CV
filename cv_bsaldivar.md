@@ -17,13 +17,27 @@
 
 ## Summary
 
-I have 15 years of professional experience: 8 years working with Python, machine learning and data science; 4 years in IT; and 3 years in diverse business-related activities. Currently working as a **Postdoc researcher** at the Institute for Research in Biomedicine (IRB Barcelona), building Generative AI for generation of New Chemical Entities (dual target inhibitors).
+I have 15 years of professional experience: 8 years working with Python, machine learning and data science; 4 years in IT; and 3 years in diverse business-related activities. Currently working as a **Lead Data Scientist at Cyberette**, building a multi-modal AI explainability platform (image, audio, and video), and as a **Postdoc researcher** at the Institute for Research in Biomedicine (IRB Barcelona), building Generative AI for generation of New Chemical Entities (dual target inhibitors).
 
 I have applied AI/ML with NLP, Computer Vision, classification, supervised & unsupervised learning, clustering, time series analysis, optimization, automation, and prediction. Tech stack: Linux, Python, PyTorch, Docker, Google Cloud Run, NumPy, Pandas, Keras, Scikit-learn.
 
 ---
 
 ## Work Experience
+
+### Lead Data Scientist
+**Cyberette**  
+_04/2026 – Present_
+
+Setting technical direction for the company's AI/ML roadmap to advance the product and service offering, partnering closely with stakeholders and cross-functional teams to align priorities. Built a modular multi-modal AI explainability platform across image, audio, and video domains — 30+ microservices deployed on Azure App Service. Architecture: pip-installable Python packages → FastAPI REST APIs → Azure App Service (ACR Tasks + Key Vault secrets + managed identities). 600+ unit and integration tests across all packages.
+
+- **Image:** Cyberette Explainability Pipeline v3; full image analysis pipeline (deepfake detection, face detection/attributes with InsightFace, person detection with RT-DETR-L/X + GroundingDINO, object detection with YOLO11n/s).
+- **Audio:** Speech-to-text (faster-whisper, 7 model sizes); audio scene captioning (CoNeTTE + PANNs CNN14 + wav2vec2-SER); fake audio detection (AASIST two-stage, XLS-R 300M, 128 languages).
+- **Video:** Temporal object tracking and narrative generation (YOLO11 + ByteTrack + Gemini).
+
+Tools and methods: Azure App Service, FastAPI, Docker, InsightFace, YOLO11, RT-DETR, GroundingDINO, DINOv2, Gemini API, faster-whisper, AASIST, ByteTrack, ACR Tasks, Key Vault.
+
+---
 
 ### Post Doctoral Researcher
 **IRB Barcelona — Institute for Research in Biomedicine**  
