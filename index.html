@@ -216,13 +216,9 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   .tl-card,.sg,.pc,.pub,.ci,.aw,.sum-card{box-shadow:none}
   footer{padding:20px 0}
   #formal-cv{display:none!important}
-  /* FORMAL MODE: print only the plain, paragraph-style resume */
-  body.formal-print>*:not(#formal-cv){display:none!important}
-  body.formal-print #formal-cv{display:block!important}
-  body.formal-print{background:#fff}
 }
 
-/* FORMAL CV (print-only, HR-friendly) */
+/* FORMAL CV (HR-friendly). Hidden; it is the content source for the "Formal PDF" download. */
 #formal-cv{display:none;font-family:Georgia,'Times New Roman',Times,serif;color:#000;font-size:10.5pt;line-height:1.45;max-width:180mm;margin:0 auto}
 #formal-cv *{-webkit-print-color-adjust:economy!important;print-color-adjust:economy!important}
 #formal-cv a{color:#000;text-decoration:none}
@@ -270,7 +266,7 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
       </ul>
     </details>
     <button id="pdf-btn" onclick="printCV()" style="background:var(--cyan);color:var(--navy);border:none;padding:6px 14px;border-radius:6px;font-size:.78rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit;flex-shrink:0">⬇ PDF</button>
-    <!-- en-only --><button id="pdf-formal-btn" onclick="printCV('formal')" title="Download a plain, formal CV as PDF" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit;flex-shrink:0">⬇ Formal PDF</button><!-- /en-only -->
+    <!-- en-only --><button id="pdf-formal-btn" onclick="downloadFormalPDF(this)" title="Download a plain, formal CV as PDF" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit;flex-shrink:0">⬇ Formal PDF</button><!-- /en-only -->
     </div>
   </div>
 </nav>
@@ -979,6 +975,139 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   <h2>Languages and International Experience</h2>
   <p>Spanish (native) and English (fluent, TOEFL iBT 103/120). Professional and academic experience in 10 countries across four continents: Peru, Spain, Italy, the Netherlands, Poland, South Korea, the United States, Canada, Mexico and Ecuador.</p>
 </div>
+<script>
+// "Formal PDF": builds a real-text (selectable, searchable) PDF from #formal-cv with jsPDF
+// and downloads it directly as bsaldivar_cv_en_formal_<YYYYMMDD>.pdf - no print dialog.
+let jsPDFReady;
+function loadJsPDF() {
+  return jsPDFReady || (jsPDFReady = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = () => resolve(window.jspdf.jsPDF);
+    s.onerror = () => { jsPDFReady = null; reject(new Error('jsPDF could not be loaded')); };
+    document.head.appendChild(s);
+  }));
+}
+async function downloadFormalPDF(btn) {
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = '… generating';
+  try {
+    const jsPDF = await loadJsPDF();
+    buildFormalPDF(jsPDF, document.getElementById('formal-cv')).save(cvFileName('formal') + '.pdf');
+  } catch (e) {
+    console.error(e);
+    alert('Sorry, the formal PDF could not be generated (are you offline?).');
+  } finally {
+    btn.disabled = false; btn.textContent = label;
+  }
+}
+
+function buildFormalPDF(jsPDF, root) {
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const M = 50, BOTTOM = H - 46, CW = W - 2 * M, FONT = 'times', BODY = 10.5;
+  const lh = size => size * 1.3;
+  let y = M;  // top of the next line
+  const need = h => { if (y + h > BOTTOM) { doc.addPage(); y = M; } };
+  const font = (style, size) => { doc.setFont(FONT, style); doc.setFontSize(size); };
+  const width = (text, style, size) => { font(style, size); return doc.getTextWidth(text); };
+
+  // DOM node -> styled runs [{text, style}] / {br}
+  function runs(node, style = 'normal', out = []) {
+    node.childNodes.forEach(n => {
+      if (n.nodeType === 3) return out.push({ text: n.textContent, style });
+      if (n.nodeType !== 1) return;
+      if (n.nodeName === 'BR') return out.push({ br: true });
+      const bold = /^(STRONG|B)$/.test(n.nodeName) || style.includes('bold');
+      const ital = /^(EM|I)$/.test(n.nodeName) || style.includes('italic');
+      runs(n, bold && ital ? 'bolditalic' : bold ? 'bold' : ital ? 'italic' : 'normal', out);
+    });
+    return out;
+  }
+  // runs -> lines of words (a word = consecutive pieces with no space between them)
+  function layout(rs, size, first, rest) {
+    const words = [];
+    let cur = [];
+    const end = () => { if (cur.length) words.push(cur); cur = []; };
+    rs.forEach(r => {
+      if (r.br) { end(); words.push('BR'); return; }
+      r.text.replace(/\s+/g, ' ').split(/( )/).forEach(p => {
+        if (p === ' ') end(); else if (p) cur.push({ text: p, style: r.style });
+      });
+    });
+    end();
+    const lines = [];
+    let line = [], w = 0;
+    const space = width(' ', 'normal', size);
+    words.forEach(word => {
+      if (word === 'BR') { lines.push(line); line = []; w = 0; return; }
+      const ww = word.reduce((a, p) => a + width(p.text, p.style, size), 0);
+      const max = CW - (lines.length ? rest : first);
+      if (line.length && w + space + ww > max) { lines.push(line); line = []; w = 0; }
+      w += (line.length ? space : 0) + ww;
+      line.push(word);
+    });
+    if (line.length) lines.push(line);
+    return lines;
+  }
+  function drawLine(line, size, x, align) {
+    const pieces = [];  // merge into same-style text runs
+    line.forEach((word, i) => word.forEach((p, j) => {
+      const text = (i && !j ? ' ' : '') + p.text, last = pieces[pieces.length - 1];
+      if (last && last.style === p.style) last.text += text; else pieces.push({ text, style: p.style });
+    }));
+    const total = pieces.reduce((a, p) => a + width(p.text, p.style, size), 0);
+    if (align === 'center') x = M + (CW - total) / 2;
+    const base = y + size * 0.9;
+    pieces.forEach(p => { font(p.style, size); doc.text(p.text, x, base); x += doc.getTextWidth(p.text); });
+    y += lh(size);
+  }
+  function para(node, { size = BODY, style = 'normal', first = 0, rest = 0, align = 'left', after = 5 } = {}) {
+    layout(runs(node, style), size, first, rest).forEach((line, i) => {
+      need(lh(size));
+      drawLine(line, size, M + (i ? rest : first), align);
+    });
+    y += after;
+  }
+  const rule = (w, gap) => { doc.setLineWidth(w); doc.line(M, y, W - M, y); y += gap; };
+
+  for (const el of root.children) {
+    if (el.classList.contains('f-head')) {
+      para(el.querySelector('.f-name'), { size: 20, style: 'bold', align: 'center', after: 2 });
+      para(el.querySelector('.f-role'), { size: 11, style: 'italic', align: 'center', after: 3 });
+      para(el.querySelector('.f-contact'), { size: 9.5, align: 'center', after: 4 });
+      rule(1.5, 6);
+    } else if (el.tagName === 'H2') {
+      need(18 + lh(BODY) * 3);  // keep heading with the first lines below it
+      y += 8;
+      font('bold', 11.5);
+      doc.text(el.textContent.trim().toUpperCase(), M, y + 11.5 * 0.9, { charSpace: 0.8 });
+      y += lh(11.5) + 1;
+      rule(0.6, 6);
+    } else if (el.classList.contains('f-entry')) {
+      need(lh(BODY) * 5);  // title, organisation and first lines together
+      const [title, date] = el.querySelectorAll('.f-line span');
+      font('normal', BODY);
+      doc.text(date.textContent.trim(), W - M, y + BODY * 0.9, { align: 'right' });
+      para(title, { style: 'bold', after: 0 });
+      para(el.querySelector('.f-sub'), { style: 'italic', after: 1 });
+      el.querySelectorAll('p').forEach(p => para(p, { after: 4 }));
+      y += 3;
+    } else if (el.tagName === 'P') {
+      para(el, el.classList.contains('f-pub') ? { rest: 14 } : {});
+    }
+  }
+
+  const pages = doc.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i);
+    font('normal', 8.5);
+    doc.text(`Bryan Saldivar, PhD - Curriculum Vitae - Page ${i} of ${pages}`, W / 2, H - 28, { align: 'center' });
+  }
+  doc.setProperties({ title: 'Bryan Saldivar, PhD - Curriculum Vitae', author: 'Bryan Saldivar', subject: 'Curriculum Vitae' });
+  return doc;
+}
+</script>
 <!-- /en-only -->
 
 <script>
@@ -1001,24 +1130,16 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 // Browsers use the page title as the default "Save as PDF" file name:
 // bsaldivar_cv_<lang>_<YYYYMMDD>.pdf
-// The formal version gets a "_formal" suffix: bsaldivar_cv_<lang>_formal_<YYYYMMDD>.pdf
+// (Chrome/Edge "Save as PDF" destination; "Microsoft Print to PDF" ignores it)
 const pageTitle = document.title;
-function pdfTitle() {
+function cvFileName(suffix) {
   const d = new Date(), p = n => String(n).padStart(2, '0');
-  const mode = document.body.classList.contains('formal-print') ? '_formal' : '';
-  document.title = `bsaldivar_cv_${document.documentElement.lang}${mode}_${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`;
+  return `bsaldivar_cv_${document.documentElement.lang}${suffix ? '_' + suffix : ''}_${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`;
 }
-// printCV() → normal (visual) PDF; printCV('formal') → plain HR-style PDF
-function printCV(mode) {
-  document.body.classList.toggle('formal-print', mode === 'formal');
-  pdfTitle();
-  window.print();
-}
-window.addEventListener('beforeprint', pdfTitle);  // also covers Ctrl+P (normal version)
-window.addEventListener('afterprint', () => {
-  document.title = pageTitle;
-  document.body.classList.remove('formal-print');
-});
+function pdfTitle() { document.title = cvFileName(); }
+function printCV() { pdfTitle(); window.print(); }
+window.addEventListener('beforeprint', pdfTitle);  // also covers Ctrl+P
+window.addEventListener('afterprint', () => { document.title = pageTitle; });
 // close the language menu when clicking elsewhere
 document.addEventListener('click', e => {
   document.querySelectorAll('.lang-switch[open]').forEach(d => { if (!d.contains(e.target)) d.removeAttribute('open'); });

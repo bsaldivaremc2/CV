@@ -217,13 +217,9 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   .tl-card,.sg,.pc,.pub,.ci,.aw,.sum-card{box-shadow:none}
   footer{padding:20px 0}
   #formal-cv{display:none!important}
-  /* FORMAL MODE: print only the plain, paragraph-style resume */
-  body.formal-print>*:not(#formal-cv){display:none!important}
-  body.formal-print #formal-cv{display:block!important}
-  body.formal-print{background:#fff}
 }
 
-/* FORMAL CV (print-only, HR-friendly) */
+/* FORMAL CV (HR-friendly). Hidden; it is the content source for the "Formal PDF" download. */
 #formal-cv{display:none;font-family:Georgia,'Times New Roman',Times,serif;color:#000;font-size:10.5pt;line-height:1.45;max-width:180mm;margin:0 auto}
 #formal-cv *{-webkit-print-color-adjust:economy!important;print-color-adjust:economy!important}
 #formal-cv a{color:#000;text-decoration:none}
@@ -870,24 +866,16 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 // Browsers use the page title as the default "Save as PDF" file name:
 // bsaldivar_cv_<lang>_<YYYYMMDD>.pdf
-// The formal version gets a "_formal" suffix: bsaldivar_cv_<lang>_formal_<YYYYMMDD>.pdf
+// (Chrome/Edge "Save as PDF" destination; "Microsoft Print to PDF" ignores it)
 const pageTitle = document.title;
-function pdfTitle() {
+function cvFileName(suffix) {
   const d = new Date(), p = n => String(n).padStart(2, '0');
-  const mode = document.body.classList.contains('formal-print') ? '_formal' : '';
-  document.title = `bsaldivar_cv_${document.documentElement.lang}${mode}_${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`;
+  return `bsaldivar_cv_${document.documentElement.lang}${suffix ? '_' + suffix : ''}_${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`;
 }
-// printCV() → normal (visual) PDF; printCV('formal') → plain HR-style PDF
-function printCV(mode) {
-  document.body.classList.toggle('formal-print', mode === 'formal');
-  pdfTitle();
-  window.print();
-}
-window.addEventListener('beforeprint', pdfTitle);  // also covers Ctrl+P (normal version)
-window.addEventListener('afterprint', () => {
-  document.title = pageTitle;
-  document.body.classList.remove('formal-print');
-});
+function pdfTitle() { document.title = cvFileName(); }
+function printCV() { pdfTitle(); window.print(); }
+window.addEventListener('beforeprint', pdfTitle);  // also covers Ctrl+P
+window.addEventListener('afterprint', () => { document.title = pageTitle; });
 // close the language menu when clicking elsewhere
 document.addEventListener('click', e => {
   document.querySelectorAll('.lang-switch[open]').forEach(d => { if (!d.contains(e.target)) d.removeAttribute('open'); });
