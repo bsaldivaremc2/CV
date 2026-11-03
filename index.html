@@ -201,7 +201,7 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   *,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   /* Ensure fade-in elements that haven't scrolled into view still appear */
   .fi{opacity:1!important;transform:none!important;transition:none!important}
-  nav,#pdf-btn,.lang-switch{display:none!important}
+  nav,#pdf-btn,#pdf-formal-btn,.lang-switch{display:none!important}
   #hero{padding:30px 0 22px;overflow:visible}
   #hero::before,#hero::after{display:none}
   .section{padding:26px 0}
@@ -215,7 +215,28 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   /* Strip box-shadows for cleaner print output */
   .tl-card,.sg,.pc,.pub,.ci,.aw,.sum-card{box-shadow:none}
   footer{padding:20px 0}
+  #formal-cv{display:none!important}
+  /* FORMAL MODE: print only the plain, paragraph-style resume */
+  body.formal-print>*:not(#formal-cv){display:none!important}
+  body.formal-print #formal-cv{display:block!important}
+  body.formal-print{background:#fff}
 }
+
+/* FORMAL CV (print-only, HR-friendly) */
+#formal-cv{display:none;font-family:Georgia,'Times New Roman',Times,serif;color:#000;font-size:10.5pt;line-height:1.45;max-width:180mm;margin:0 auto}
+#formal-cv *{-webkit-print-color-adjust:economy!important;print-color-adjust:economy!important}
+#formal-cv a{color:#000;text-decoration:none}
+#formal-cv .f-head{text-align:center;border-bottom:1.5pt solid #000;padding-bottom:8pt;margin-bottom:10pt}
+#formal-cv .f-name{font-size:20pt;font-weight:700;letter-spacing:.04em;line-height:1.2}
+#formal-cv .f-role{font-size:11pt;font-style:italic;margin-top:2pt}
+#formal-cv .f-contact{font-size:9.5pt;margin-top:4pt}
+#formal-cv h2{font-family:inherit;font-size:11.5pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-bottom:.6pt solid #000;padding-bottom:2pt;margin:14pt 0 6pt;break-after:avoid;page-break-after:avoid}
+#formal-cv p{margin:0 0 6pt;text-align:justify}
+#formal-cv .f-entry{margin-bottom:8pt;break-inside:avoid;page-break-inside:avoid}
+#formal-cv .f-line{display:flex;justify-content:space-between;gap:12pt;font-weight:700}
+#formal-cv .f-line span:last-child{font-weight:400;white-space:nowrap}
+#formal-cv .f-sub{font-style:italic;margin-bottom:2pt}
+#formal-cv .f-pub{margin:0 0 5pt;padding-left:14pt;text-indent:-14pt;text-align:left;break-inside:avoid}
 </style>
 </head>
 <body>
@@ -249,6 +270,7 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
       </ul>
     </details>
     <button id="pdf-btn" onclick="printCV()" style="background:var(--cyan);color:var(--navy);border:none;padding:6px 14px;border-radius:6px;font-size:.78rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit;flex-shrink:0">⬇ PDF</button>
+    <!-- en-only --><button id="pdf-formal-btn" onclick="printCV('formal')" title="Download a plain, formal CV as PDF" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-family:inherit;flex-shrink:0">⬇ Formal PDF</button><!-- /en-only -->
     </div>
   </div>
 </nav>
@@ -828,6 +850,137 @@ footer>div>p{font-size:.88rem;margin-bottom:18px}
   </div>
 </footer>
 
+<!-- en-only -->
+<!-- FORMAL CV: plain, paragraph-style version of the same content. Hidden on screen; printed via "Formal PDF". -->
+<div id="formal-cv" aria-hidden="true">
+  <div class="f-head">
+    <div class="f-name" translate="no">Bryan Saldivar, PhD</div>
+    <div class="f-role">AI Engineer · Lead Data Scientist · AI/ML Researcher and Educator</div>
+    <div class="f-contact" translate="no">bsaldivar.emc2@gmail.com · linkedin.com/in/bsaldivar · github.com/bsaldivaremc2 · bsaldivaremc2.github.io/CV<br>ORCID: 0000-0002-9667-2818 · Scopus ID: 57205765373</div>
+  </div>
+
+  <h2>Professional Summary</h2>
+  <p>AI engineer, data scientist and researcher with 15 years of professional experience spanning AI/ML research, software engineering, education and IT infrastructure. I currently work as an AI Engineer at a company under a non-disclosure agreement, where I build AI agents using the Model Context Protocol (MCP), and as Lead Data Scientist at Cyberette, where I lead the development of a multi-modal AI explainability platform for image, audio and video, comprising more than 30 microservices on Azure App Service. From July 2023 to August 2026 I was a Postdoctoral Researcher at IRB Barcelona, developing generative AI for drug discovery (dual target inhibitors) with latent diffusion models, variational autoencoders and Transformers on HPC clusters.</p>
+  <p>As an independent AI/ML consultant, I have delivered projects in breast cancer diagnosis from time-series sensor data, pregnancy prediction from microscopic saliva images, and company growth prediction from banking data, the latter earning 3rd place out of 730 participants in the BBVA Datachallenge 2022. Earlier research positions at Universitat Rovira i Virgili and Universidad Peruana Cayetano Heredia produced work on SARS-CoV-2 mutation prediction, non-invasive anemia diagnosis, heartbeat detection from infrared video and stomata classification for drought-resistance studies, resulting in four peer-reviewed publications and a WIPO patent.</p>
+  <p>I have also taught AI/ML, generative AI, prompt engineering, automation and Power BI to medical professionals, freelancers and SME owners at Metodogrupo, Ironhack and Universidad Peruana Cayetano Heredia. My earlier career includes four years in network administration, Citrix virtualization and SQL Server administration. I was awarded a Marie Curie PhD fellowship (Universitat Rovira i Virgili, Spain) and a CONCYTEC scholarship for my Master's degree (Peru).</p>
+
+  <h2>Professional Experience</h2>
+  <div class="f-entry">
+    <div class="f-line"><span>AI Engineer</span><span>09/2026 – Present</span></div>
+    <div class="f-sub">Confidential employer (under NDA)</div>
+    <p>Applied AI engineering under a non-disclosure agreement, so the employer and product details cannot be shared publicly. My work focuses on the development of AI agents that use the Model Context Protocol (MCP) for tool-augmented LLM workflows, using Python, Git, Docker containers and HPC resources.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Lead Data Scientist</span><span>04/2026 – Present</span></div>
+    <div class="f-sub">Cyberette</div>
+    <p>I set the technical direction of the company's AI/ML roadmap to advance its product and service offering, working closely with stakeholders and cross-functional teams to align priorities. I built a modular, multi-modal AI explainability platform covering image, audio and video, consisting of more than 30 microservices deployed on Azure App Service. The platform is organised as pip-installable Python packages exposed through FastAPI REST APIs and deployed with Azure ACR Tasks, Key Vault secrets and managed identities, and is covered by more than 600 unit and integration tests.</p>
+    <p>For images, the platform provides the Cyberette Explainability Pipeline v3, including deepfake detection, face detection and attribute analysis (InsightFace), person detection (RT-DETR and GroundingDINO) and object detection (YOLO11). For audio, it provides speech-to-text (faster-whisper), audio scene captioning (CoNeTTE, PANNs CNN14 and wav2vec2-SER) and fake audio detection in 128 languages (AASIST and XLS-R). For video, it provides temporal object tracking with automatically generated narratives (YOLO11, ByteTrack and Gemini), and I am developing a fake video detection model.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Postdoctoral Researcher</span><span>07/2023 – 08/2026</span></div>
+    <div class="f-sub">IRB Barcelona – Institute for Research in Biomedicine, Barcelona, Spain</div>
+    <p>I developed generative AI for drug discovery, generating new molecules (in text representation) designed to bind to two or more protein targets (dual target inhibitors). The work used PyTorch, latent diffusion models, autoencoders, GANs, Transformers and contrastive learning, trained on HPC clusters with Singularity containers.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Lead Teacher, AI/ML</span><span>03/2026 – 05/2026</span></div>
+    <div class="f-sub">Metodogrupo</div>
+    <p>I taught classification, regression, model evaluation, hyperparameter tuning, AutoML, interpretability and explainability, dimensionality reduction, outlier detection and ML pipelines, using tools such as Scikit-learn, MLflow, MLjar and AutoGluon.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>AI/ML Consultant</span><span>02/2025 – Present</span></div>
+    <div class="f-sub">Freelance</div>
+    <p>I deliver applied machine learning projects for clients, including breast cancer prediction from multi-sensor time series (evolutionary algorithms, XGBoost and repeated cross-validation) and pregnancy prediction from saliva microscopy images (CNNs trained on GCP Vertex AI and served as a Cloud Run API with FastAPI and Docker).</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Lead Teacher, AI and Automation</span><span>09/2025 – 12/2025</span></div>
+    <div class="f-sub">Ironhack</div>
+    <p>I taught prompt engineering, Power BI and chatbot development for WhatsApp, Telegram and the web to freelancers and SME owners, using make.com, the OpenAI API and LLM tool calling.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Lead Teacher, AI/ML for Healthcare</span><span>01/2025 – 04/2025</span></div>
+    <div class="f-sub">Universidad Peruana Cayetano Heredia (UPCH), Lima, Peru</div>
+    <p>I taught deep learning and computer vision to medical professionals, using ChatGPT, Gemini and Claude as coding assistants.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Research Fellow (PhD)</span><span>02/2019 – 05/2022</span></div>
+    <div class="f-sub">Universitat Rovira i Virgili, Tarragona, Spain</div>
+    <p>I applied machine learning to genomic and omic data and co-authored a paper on SARS-CoV-2 mutation prediction. I also built a face recognition web application for the European Researchers' Night. As a Pi School (Italy) fellow, I developed heartbeat detection from single-channel infrared baby monitor video for a startup. Tools included CNNs, GANs, TensorFlow and Keras.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Research Assistant</span><span>09/2017 – 10/2018</span></div>
+    <div class="f-sub">Universidad Peruana Cayetano Heredia, Lima, Peru</div>
+    <p>I developed computer vision systems for anemia and tuberculosis diagnosis and for stomata classification from microscope images, using CNNs, segmentation and object detection with TensorFlow. This work was presented at Innovation Week Peru 2018.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Innovation Consultant</span><span>04/2016 – 09/2017</span></div>
+    <div class="f-sub">Freelance, Lima, Peru</div>
+    <p>I carried out patent analysis (including NLP-based analysis), formulated R&amp;D projects for government grants, developed prototypes such as a water-from-air device and a nut milk machine, and prepared technology watch reports for industry.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Virtualization Engineer</span><span>01/2012 – 02/2014</span></div>
+    <div class="f-sub">Netcare SAC, Lima, Peru</div>
+    <p>I implemented and supported Citrix solutions (XenApp, XenServer), Netscaler load balancers, Bluecat DNS/DHCP/IPAM and digital certificates.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Network Administrator / Technical Support</span><span>06/2010 – 04/2011</span></div>
+    <div class="f-sub">Sistemas UNI, Lima, Peru</div>
+    <p>I provided helpdesk support and handled network administration, SQL Server database administration and website management.</p>
+  </div>
+
+  <h2>Education</h2>
+  <div class="f-entry">
+    <div class="f-line"><span>PhD in Nutrigenomics</span><span>02/2019 – 05/2025</span></div>
+    <div class="f-sub">Universitat Rovira i Virgili, Tarragona, Spain</div>
+    <p>Marie Curie Scholarship (Martí Franquès Cofund Programme, 2018MFP-COFUND). Thesis on SARS-CoV-2 mutation prediction with deep learning. I attended summer schools at the University of Oxford, ETH Zürich and AI Singapore, and completed the Pi School (Italy) AI fellowship.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Master in Public Policy in Science and Technology</span><span>04/2014 – 04/2016</span></div>
+    <div class="f-sub">Universidad Peruana Cayetano Heredia, Lima, Peru · CGPA 3.46/4.00</div>
+    <p>CONCYTEC Scholarship. Thesis on patent and export analysis for Peru's development, using NLP, data mining, web scraping and regression.</p>
+  </div>
+  <div class="f-entry">
+    <div class="f-line"><span>Bachelor in Telecommunications Engineering</span><span>04/2007 – 04/2012</span></div>
+    <div class="f-sub">Universidad Tecnológica del Perú, Lima, Peru · CGPA 3.4/4.00</div>
+    <p>Graduated 2nd in class. Final project on VoIP route optimization using genetic algorithms, MySQL, PHP and the Java SDK.</p>
+  </div>
+
+  <h2>Skills</h2>
+  <p><strong>Generative AI and deep learning:</strong> latent diffusion and diffusion models, autoencoders, VAE/hVAE, GANs, Transformers (GPT-2) and contrastive learning, using PyTorch, TensorFlow, Keras, Hugging Face, Ollama and LVMs.</p>
+  <p><strong>AI agents and RAG:</strong> LLM-based AI agents with LangChain and LangGraph, RAG with FAISS and chunking strategies, tool calling and MCP, the OpenAI, Gemini and OpenRouter APIs, Claude Code, and chatbots for WhatsApp, Telegram and the web built with make.com.</p>
+  <p><strong>Computer vision and explainability:</strong> CNNs, image classification, segmentation, object detection and tracking, transfer learning, OpenCV, InsightFace, FaceNet, YOLO11, RT-DETR, GroundingDINO, ByteTrack and DINOv2, together with SHAP, Grad-CAM and saliency maps for explainability.</p>
+  <p><strong>Machine learning and AutoML:</strong> Scikit-learn, XGBoost, Random Forest, SVM, MLjar, AutoGluon, TPOT, TabPFN and MLflow; feature engineering, dimensionality reduction (PCA) and evolutionary algorithms.</p>
+  <p><strong>NLP and text analytics:</strong> embeddings and cosine similarity, text mining, clustering, summarization, web scraping, patent analysis and prompt engineering (Chain of Thought, few-shot).</p>
+  <p><strong>Audio and media AI:</strong> speech-to-text (faster-whisper), audio captioning (CoNeTTE, PANNs CNN14), speech emotion recognition (wav2vec2-SER), sound event detection, fake audio and deepfake detection (AASIST, XLS-R) and ffmpeg.</p>
+  <p><strong>Cloud, DevOps and tools:</strong> Python, Git, FastAPI, Docker and containers; Azure App Service, Azure ACR Tasks and Azure Key Vault; GCP Vertex AI and Cloud Run; HPC with Singularity, Linux/Bash and SQL; GitHub Copilot, Power BI, Pandas, NumPy, Matplotlib and Seaborn.</p>
+
+  <h2>Selected Projects</h2>
+  <p><strong>Multi-Modal AI Explainability Platform (Cyberette):</strong> more than 30 microservices on Azure App Service for image, audio and video analysis, including face, person and object detection, speech-to-text, scene captioning, fake audio detection in 128 languages and temporal video tracking with Gemini-generated narratives, covered by more than 600 tests.</p>
+  <p><strong>Dual Target Inhibitor Generation:</strong> generative AI (latent diffusion, VAE, GPT-2) to design novel molecules that bind to two or more protein targets.</p>
+  <p><strong>Breast Cancer Diagnosis from Time Series:</strong> evolutionary algorithms and XGBoost for feature engineering to predict breast cancer from multi-sensor time series, benchmarked with AutoGluon, TPOT and TabPFN.</p>
+  <p><strong>Company Growth Prediction:</strong> analysis of banking transactions with AutoML and SHAP to predict SME growth; 3rd place out of 730 in the BBVA Datachallenge 2022.</p>
+  <p><strong>SARS-CoV-2 Mutation Prediction:</strong> CNN and MLP models on RNA sequences and secondary structure to predict recurrent COVID-19 mutations, interpreted with SHAP and saliency maps.</p>
+  <p><strong>Other projects:</strong> heartbeat detection from infrared baby monitor video (feature engineering and Random Forest); a "Which Scientist Are You?" face recognition web app (FaceNet embeddings); phone-based anemia diagnosis from the conjunctiva (published 2019); water quality prediction from microscope images (CNNs); saliva-based pregnancy detection deployed on GCP Cloud Run; NLP summarization, clustering and trend prediction on thousands of patents for a coffee cooperative; stomata location in coffee leaf images to predict drought resistance; and a VoIP call re-routing optimizer based on genetic algorithms.</p>
+
+  <h2>Publications</h2>
+  <p class="f-pub">Saldivar-Espinoza, B.; Macip, G.; Garcia-Segura, P.; Mestres-Truyol, J.; Puigbò, P.; Cereto-Massagué, A.; Pujadas, G.; Garcia-Vallve, S. (2022). Prediction of Recurrent Mutations in SARS-CoV-2 Using Artificial Neural Networks. <em>International Journal of Molecular Sciences</em>, 23, 14683. DOI: 10.3390/ijms232314683</p>
+  <p class="f-pub">Saldivar-Espinoza, B.; Núñez-Fernández, D.; Porras-Barrientos, F.; Alva-Mantari, A.; Leslie, L. S.; Zimic, M. (2019). Portable System for the Prediction of Anemia Based on the Ocular Conjunctiva Using Artificial Intelligence. <em>arXiv preprint</em> arXiv:1910.12399.</p>
+  <p class="f-pub">Delgado-Rivera, G.; Roman-Gonzalez, A.; Alva, A.; Saldivar-Espinoza, B.; Zimic, M.; Barrientos-Porras, F.; Salguedo-Bohorquez, M. (2018). Method for the Automatic Segmentation of the Palpebral Conjunctiva Using Image Processing. Conference paper, pp. 1–4. DOI: 10.1109/ICA-ACCA.2018.8609744</p>
+  <p class="f-pub">Alva, A.; Zarate Segura, G.; Saldivar-Espinoza, B.; Sotomayor Beltran, C.; Roman-Gonzalez, A. (2018). Descriptive Study of the Ionosphere Charge Variation as a Preamble of Worldwide Earthquakes During 2016. Conference paper, pp. 1–4. DOI: 10.1109/SHIRCON.2018.8593184</p>
+
+  <h2>Patent</h2>
+  <p>Machine for the preparation of beverages based on nuts and the like. WIPO publication WO2022146147.</p>
+
+  <h2>Awards and Honors</h2>
+  <p>3rd place out of 730 participants in the BBVA Datachallenge 2022 for predicting company growth from banking data. Marie Curie Predoctoral Fellowship, Martí Franquès Cofund Programme (2018MFP-COFUND), for doctoral studies at Universitat Rovira i Virgili, Spain. Full two-month scholarship for the Pi School of AI (Italy), working on AI projects for real clients. Finalist in the AgTech ICA-Peru 2018 agriculture innovation contest with "ML for drought-resistant cocoa selection". CONCYTEC government scholarship for a Master's degree in Science and Technology, Peru. Graduated 2nd in class in Telecommunications Engineering and ranked first in the 10th semester.</p>
+
+  <h2>Conferences and Presentations</h2>
+  <p>Poster at AI in Drug Discovery and Biomedicine (2025): "Generating Novel Chemical Entities using Latent Diffusion and Hierarchical Variational Autoencoders for Target Specific Binding". Workshop at the European Researchers' Night, Tarragona 2019 (H2020-MSCA-NIGHT-2019), applying face recognition to show visitors which scientist they most resemble. Presentation at Concytec Innovation Week, Peru 2018, on non-invasive anemia diagnosis with a machine learning computer vision system. Presentation at the EPICAH Conference on advances in AI applied to non-invasive anemia diagnosis.</p>
+
+  <h2>Languages and International Experience</h2>
+  <p>Spanish (native) and English (fluent, TOEFL iBT 103/120). Professional and academic experience in 10 countries across four continents: Peru, Spain, Italy, the Netherlands, Poland, South Korea, the United States, Canada, Mexico and Ecuador.</p>
+</div>
+<!-- /en-only -->
+
 <script>
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
@@ -848,14 +1001,24 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 // Browsers use the page title as the default "Save as PDF" file name:
 // bsaldivar_cv_<lang>_<YYYYMMDD>.pdf
+// The formal version gets a "_formal" suffix: bsaldivar_cv_<lang>_formal_<YYYYMMDD>.pdf
 const pageTitle = document.title;
 function pdfTitle() {
   const d = new Date(), p = n => String(n).padStart(2, '0');
-  document.title = `bsaldivar_cv_${document.documentElement.lang}_${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`;
+  const mode = document.body.classList.contains('formal-print') ? '_formal' : '';
+  document.title = `bsaldivar_cv_${document.documentElement.lang}${mode}_${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}`;
 }
-function printCV() { pdfTitle(); window.print(); }
-window.addEventListener('beforeprint', pdfTitle);  // also covers Ctrl+P
-window.addEventListener('afterprint', () => { document.title = pageTitle; });
+// printCV() → normal (visual) PDF; printCV('formal') → plain HR-style PDF
+function printCV(mode) {
+  document.body.classList.toggle('formal-print', mode === 'formal');
+  pdfTitle();
+  window.print();
+}
+window.addEventListener('beforeprint', pdfTitle);  // also covers Ctrl+P (normal version)
+window.addEventListener('afterprint', () => {
+  document.title = pageTitle;
+  document.body.classList.remove('formal-print');
+});
 // close the language menu when clicking elsewhere
 document.addEventListener('click', e => {
   document.querySelectorAll('.lang-switch[open]').forEach(d => { if (!d.contains(e.target)) d.removeAttribute('open'); });
