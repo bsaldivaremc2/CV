@@ -147,7 +147,7 @@ Helpdesk, network administration, SQL Server 2000 database administration, websi
 
 ### PhD in Nutrigenomics
 **Universitat Rovira I Virgili** — Tarragona, Spain  
-_02/2019 – 05/2025_  
+_02/2019 – 05/2024_  
 **Fellowship:** Marie Curie Scholarship (Martí Franquès Cofund Programme 2018MFP-COFUND)
 
 Thesis focused on SARS-CoV-2 mutations, applying deep learning to predict recurrent mutations. Additional activities: Pi School (Italy) fellowship for heartbeat detection from video; attended summer schools at Oxford, ETH Zürich, and AI Singapore; built face recognition webapp for public science engagement (Researchers' Night).
